@@ -585,6 +585,71 @@
     margin-top: 0.15rem;
   }
 
+  /* TESTIMONIALS */
+  .testimonials-section {
+    padding: 7rem 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: 4rem;
+  }
+
+  .testimonial {
+    padding: 2.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+
+  .testimonial-mark {
+    font-family: var(--serif);
+    font-size: 3.5rem;
+    line-height: 0.5;
+    color: var(--green);
+    opacity: 0.85;
+    user-select: none;
+  }
+
+  .testimonial-quote {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    font-weight: 300;
+    color: rgba(245,243,238,0.82);
+    flex: 1;
+  }
+
+  .testimonial-quote em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .testimonial-attrib {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .testimonial-name {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--white);
+  }
+
+  .testimonial-role {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--green);
+    text-transform: uppercase;
+  }
+
   /* CONTACT */
   .contact-section {
     padding: 8rem 2.5rem 5rem;
@@ -708,9 +773,11 @@
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    .philosophy-grid, .pillars, .approach-header, .ai-grid {
+    .philosophy-grid, .pillars, .approach-header, .ai-grid, .testimonial-grid {
       grid-template-columns: 1fr;
     }
+    .testimonials-section { padding: 4rem 1.5rem; }
+    .testimonial { padding: 1.8rem; }
     .philosophy-item { padding: 1.8rem; }
     .timeline-item { grid-template-columns: 1fr; gap: 0.8rem; padding: 1.8rem; }
     .pillar { padding: 1.8rem; }
@@ -1001,6 +1068,50 @@
         <li>Host of the AI Webinar series for Campaign Network.</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="proof">
+  <p class="section-label reveal">What partners say</p>
+  <div class="testimonial-grid">
+
+    <div class="testimonial glass reveal">
+      <span class="testimonial-mark">&ldquo;</span>
+      <p class="testimonial-quote">A <em>razor-sharp strategist</em> and one of the most clear-thinking professionals I've worked with at both Omnicom and R/GA. He excels at driving innovation, particularly with AI, runs excellent workshops, and delivers compelling, high-impact presentations. On top of that, he's a genuinely nice person who makes every project better. A true pleasure to collaborate with.</p>
+      <div class="testimonial-attrib">
+        <span class="testimonial-name">Sam Closehy</span>
+        <span class="testimonial-role">Head of Delivery EMEA · R/GA</span>
+      </div>
+    </div>
+
+    <div class="testimonial glass reveal">
+      <span class="testimonial-mark">&ldquo;</span>
+      <p class="testimonial-quote">David and I worked together for over five years growing Nimbletank from 3 to 37 people, growing revenue to £2m per annum, winning <em>Agency of the Year</em> and delivering successful apps for ASOS, Kobalt, Santander, Lloyds, and the BBC used by millions. He brought outstanding strategy, creativity, and innovation to every project — particularly around AI and emerging technologies. An exceptional strategic leader and a true gent.</p>
+      <div class="testimonial-attrib">
+        <span class="testimonial-name">Chris Minas</span>
+        <span class="testimonial-role">Founder · Nimbletank · Agentic Collective</span>
+      </div>
+    </div>
+
+    <div class="testimonial glass reveal">
+      <span class="testimonial-mark">&ldquo;</span>
+      <p class="testimonial-quote">An outstanding strategist who has led on my team for eight years at Critical Mass, most recently as lead of the London strategy team. A <em>future-focused, digital-first thinker</em> with a strong interest in AI, he excels at translating emerging trends into practical client work, fostering collaboration across creative, technology, and delivery teams, and running training sessions that help colleagues and clients adopt new approaches. I recommend David without reservation.</p>
+      <div class="testimonial-attrib">
+        <span class="testimonial-name">Grant Owens</span>
+        <span class="testimonial-role">CSO · Critical Mass</span>
+      </div>
+    </div>
+
+    <div class="testimonial glass reveal">
+      <span class="testimonial-mark">&ldquo;</span>
+      <p class="testimonial-quote">An incredible strategic partner, bringing a rare mix of deep data drive and high emotional intelligence to our digital transformation. He has a brilliant knack for reading the room, managing stakeholders across distances, and <em>making the complex feel completely simple</em>. His energy, vision, and care for the details brought our team together and created massive momentum.</p>
+      <div class="testimonial-attrib">
+        <span class="testimonial-name">Lisa Kelly</span>
+        <span class="testimonial-role">CMO · Cornmarket Insurance</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
