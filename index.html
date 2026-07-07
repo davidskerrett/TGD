@@ -16,30 +16,119 @@
     --mid: #2a2a2a;
     --serif: 'Cormorant Garamond', Georgia, serif;
     --mono: 'DM Mono', monospace;
+
+    /* Liquid Glass tokens — dark mode ratios */
+    --glass-fill: rgba(255,255,255,0.07);
+    --glass-fill-hover: rgba(255,255,255,0.10);
+    --glass-border: rgba(255,255,255,0.14);
+    --glass-highlight: rgba(255,255,255,0.12);
+    --glass-blur: 24px;
+    --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
+  /* Base glass pane */
+  .glass {
+    position: relative;
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.35),
+      inset 0 1px 0 var(--glass-highlight);
+    transition: transform 0.4s var(--spring), background 0.4s var(--spring),
+                box-shadow 0.4s var(--spring), border-color 0.4s var(--spring);
+    overflow: hidden;
+  }
+
+  .glass:hover {
+    background: var(--glass-fill-hover);
+    transform: translateY(-4px) scale(1.02);
+    border-color: rgba(255,255,255,0.22);
+    box-shadow:
+      0 20px 48px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(184,255,87,0.06),
+      inset 0 1px 0 rgba(255,255,255,0.18);
+  }
+
+  /* Specular highlight — follows cursor via JS (--mx / --my) */
+  .glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      280px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(255,255,255,0.10) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .glass:hover::before { opacity: 1; }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--black);
+    background: #070707; /* deepened for dark-mode glass */
     color: var(--white);
     font-family: var(--serif);
     font-weight: 300;
     overflow-x: hidden;
   }
 
+  /* Mesh gradient — the thing the glass refracts. Drifts on scroll via --scroll. */
+  .mesh-bg {
+    position: fixed;
+    inset: -20%;
+    z-index: -2;
+    background:
+      radial-gradient(ellipse 45% 38% at calc(72% + var(--scroll, 0) * 10%) calc(28% + var(--scroll, 0) * 22%), rgba(184,255,87,0.10) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 45% at calc(18% - var(--scroll, 0) * 8%) calc(65% + var(--scroll, 0) * 18%), rgba(87,214,255,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 42% at calc(50% + var(--scroll, 0) * 14%) calc(95% - var(--scroll, 0) * 30%), rgba(184,255,87,0.05) 0%, transparent 65%),
+      radial-gradient(ellipse 35% 30% at calc(88% - var(--scroll, 0) * 12%) calc(78% - var(--scroll, 0) * 15%), rgba(140,120,255,0.045) 0%, transparent 60%);
+    pointer-events: none;
+    will-change: background;
+  }
+
+  /* Grain under the glass — kills the flat, overly-clean look */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.35;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass, .glass::before { transition: none !important; }
+    .glass:hover { transform: none; }
+  }
+
   /* NAV */
   nav {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 1rem; left: 50%;
+    transform: translateX(-50%);
+    width: min(1200px, calc(100% - 2rem));
     z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.4rem 2.5rem;
-    mix-blend-mode: normal;
+    padding: 0.9rem 1.8rem;
+    background: rgba(10,10,10,0.35);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.4),
+      inset 0 1px 0 var(--glass-highlight);
   }
 
   .nav-mark {
@@ -236,23 +325,11 @@
   .philosophy-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
+    gap: 1.2rem;
   }
 
   .philosophy-item {
-    padding: 3rem 3rem 3rem 0;
-    border-bottom: 1px solid var(--mid);
-    position: relative;
-    transition: background 0.4s;
-  }
-
-  .philosophy-item:nth-child(odd) {
-    padding-right: 4rem;
-  }
-
-  .philosophy-item:nth-child(even) {
-    padding-left: 4rem;
-    border-left: 1px solid var(--mid);
+    padding: 2.5rem;
   }
 
   .philosophy-item:hover .phi-num { color: var(--green); }
@@ -285,7 +362,6 @@
   /* APPROACH */
   .approach-section {
     padding: 7rem 2.5rem;
-    background: #0f0f0f;
   }
 
   .approach-inner {
@@ -319,30 +395,26 @@
   .pillars {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--mid);
+    gap: 1.2rem;
   }
 
-  .pillar {
-    padding: 2.5rem 2.5rem 2.5rem 0;
-    border-right: 1px solid var(--mid);
-    position: relative;
-    overflow: hidden;
-  }
+  /* Layered panes: 2-3 blur strengths for depth */
+  .pillar { padding: 2.5rem; }
+  .pillar:nth-child(1) { --glass-blur: 20px; }
+  .pillar:nth-child(2) { --glass-blur: 28px; }
+  .pillar:nth-child(3) { --glass-blur: 36px; }
 
-  .pillar:last-child { border-right: none; padding-right: 0; padding-left: 2.5rem; }
-  .pillar:nth-child(2) { padding: 2.5rem; }
-
-  .pillar::before {
+  .pillar::after {
     content: '';
     position: absolute;
     top: 0; left: 0;
     width: 0; height: 2px;
     background: var(--green);
-    transition: width 0.5s ease;
+    transition: width 0.5s var(--spring);
+    border-radius: 2px;
   }
 
-  .pillar:hover::before { width: 100%; }
+  .pillar:hover::after { width: 100%; }
 
   .pillar-icon {
     font-size: 1.6rem;
@@ -383,18 +455,17 @@
 
   .timeline {
     margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
   }
 
   .timeline-item {
     display: grid;
     grid-template-columns: 200px 1fr;
     gap: 3rem;
-    padding: 2.5rem 0;
-    border-bottom: 1px solid var(--mid);
-    position: relative;
+    padding: 2.5rem;
   }
-
-  .timeline-item:first-child { border-top: 1px solid var(--mid); }
 
   .timeline-left {
     display: flex;
@@ -463,13 +534,14 @@
 
   /* AI SECTION */
   .ai-section {
-    background: var(--mid);
     padding: 7rem 2.5rem;
   }
 
   .ai-inner {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 4rem;
+    --glass-blur: 32px;
   }
 
   .ai-grid {
@@ -543,16 +615,24 @@
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-decoration: none;
-    color: var(--grey);
+    color: rgba(245,243,238,0.75);
     text-transform: uppercase;
-    border-bottom: 1px solid var(--mid);
-    padding-bottom: 0.3rem;
-    transition: color 0.3s, border-color 0.3s;
+    padding: 0.9rem 1.8rem;
+    border-radius: 100px;
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-highlight);
+    transition: transform 0.4s var(--spring), background 0.4s var(--spring),
+                color 0.3s, border-color 0.3s;
   }
 
   .contact-link:hover {
     color: var(--white);
-    border-color: var(--green);
+    border-color: rgba(184,255,87,0.4);
+    background: var(--glass-fill-hover);
+    transform: translateY(-3px) scale(1.04);
   }
 
   /* FOOTER */
@@ -591,11 +671,13 @@
 
   /* TICKER */
   .ticker-wrap {
-    border-top: 1px solid var(--mid);
-    border-bottom: 1px solid var(--mid);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
     overflow: hidden;
     padding: 1rem 0;
-    background: var(--black);
+    background: rgba(255,255,255,0.04);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
   }
 
   .ticker {
@@ -629,11 +711,11 @@
     .philosophy-grid, .pillars, .approach-header, .ai-grid {
       grid-template-columns: 1fr;
     }
-    .philosophy-item:nth-child(even) { border-left: none; padding-left: 0; }
-    .timeline-item { grid-template-columns: 1fr; gap: 0.8rem; }
-    .pillar:last-child, .pillar:nth-child(2) { padding: 2rem 0; border-right: none; }
+    .philosophy-item { padding: 1.8rem; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.8rem; padding: 1.8rem; }
+    .pillar { padding: 1.8rem; }
     .hero-headline { font-size: 3.2rem; }
-    nav { padding: 1rem 1.5rem; }
+    nav { padding: 0.8rem 1.2rem; top: 0.8rem; }
     .nav-links { gap: 1rem; }
 
     /* Hero text wrapping fixes */
@@ -661,6 +743,7 @@
     /* Section padding */
     .section, .career-section { padding: 4rem 1.5rem; }
     .approach-section, .ai-section { padding: 4rem 1.5rem; }
+    .ai-inner { padding: 2rem 1.5rem; }
     .contact-section { padding: 5rem 1.5rem 3rem; }
 
     /* Contact links stack */
@@ -672,6 +755,9 @@
 </style>
 </head>
 <body>
+
+<div class="mesh-bg"></div>
+<div class="grain"></div>
 
 <!-- NAV -->
 <nav>
@@ -759,19 +845,19 @@
 <div class="section reveal" id="approach">
   <p class="section-label">How I think</p>
   <div class="philosophy-grid">
-    <div class="philosophy-item">
+    <div class="philosophy-item glass">
       <p class="phi-num">01</p>
       <p class="phi-text">Gaining value from <em>under-used</em> elements within systems.</p>
     </div>
-    <div class="philosophy-item">
+    <div class="philosophy-item glass">
       <p class="phi-num">02</p>
       <p class="phi-text">Being <em>comprehensive</em> yet nimble.</p>
     </div>
-    <div class="philosophy-item" style="border-bottom:none">
+    <div class="philosophy-item glass">
       <p class="phi-num">03</p>
       <p class="phi-text"><em>Empathy</em> despite nuance and complexity.</p>
     </div>
-    <div class="philosophy-item" style="border-bottom:none">
+    <div class="philosophy-item glass">
       <p class="phi-num">04</p>
       <p class="phi-text">Embracing new technology and asking <em>"Why?"</em> not just "How?"</p>
     </div>
@@ -790,19 +876,19 @@
       </p>
     </div>
     <div class="pillars reveal">
-      <div class="pillar">
+      <div class="pillar glass">
         <div class="pillar-icon">↑</div>
         <p class="pillar-name">Innovation + AI</p>
         <h3 class="pillar-title">Strategy & Foresight</h3>
         <p class="pillar-body">Cultural trends, emerging tech, AI integration. Asking the right question before the brief is even written.</p>
       </div>
-      <div class="pillar">
+      <div class="pillar glass">
         <div class="pillar-icon">→</div>
         <p class="pillar-name">Experience + CX</p>
         <h3 class="pillar-title">Service Design & UX</h3>
         <p class="pillar-body">From Lloyds Bank to Nike. End-to-end experience thinking across web, app, and everything in between.</p>
       </div>
-      <div class="pillar">
+      <div class="pillar glass">
         <div class="pillar-icon">↓</div>
         <p class="pillar-name">Brand + Content</p>
         <h3 class="pillar-title">Creative Direction</h3>
@@ -819,9 +905,21 @@
   </div>
   <div class="timeline">
 
-    <div class="timeline-item reveal">
+    <div class="timeline-item glass reveal">
       <div class="timeline-left">
         <span class="timeline-year">2020 — Present</span>
+        <span class="timeline-co">Think Go Digital</span>
+        <span class="timeline-role">Founder</span>
+      </div>
+      <div class="timeline-right">
+        <p class="timeline-desc">My consultancy — open for business. Innovation, AI, training, strategy and digital products for brands and agencies, including on a fractional and freelance basis. Previous work spans UX, UI and brand for a music app for Grammy winner Kara DioGuardi, product and growth for James Caan, and trusted advisory for start-ups across the Middle East and USA. Also home to a self-publishing venture.</p>
+        <p class="timeline-clients">Paid speaking: Dropbox · Adobe · CWO · Guest Lecturer: BCU · UCA</p>
+      </div>
+    </div>
+
+    <div class="timeline-item glass reveal">
+      <div class="timeline-left">
+        <span class="timeline-year">2020 — July 2026</span>
         <span class="timeline-co">Critical Mass</span>
         <span class="timeline-role">Group Strategy Director</span>
       </div>
@@ -832,19 +930,8 @@
       </div>
     </div>
 
-    <div class="timeline-item reveal">
-      <div class="timeline-left">
-        <span class="timeline-year">2020 — 2022</span>
-        <span class="timeline-co">Think Go Digital</span>
-        <span class="timeline-role">Founder</span>
-      </div>
-      <div class="timeline-right">
-        <p class="timeline-desc">Founded TGD as a digital strategy and brand consultancy. UX, UI and brand creation for a Cara Delevigne music app. Product, brand and growth for James Caan. Trusted advisor to start-ups across the Middle East and USA.</p>
-        <p class="timeline-clients">Paid speaking: Dropbox · Adobe · CWO · Guest Lecturer: BCU · UCA</p>
-      </div>
-    </div>
 
-    <div class="timeline-item reveal">
+    <div class="timeline-item glass reveal">
       <div class="timeline-left">
         <span class="timeline-year">2014 — 2020</span>
         <span class="timeline-co">Nimbletank</span>
@@ -857,7 +944,7 @@
       </div>
     </div>
 
-    <div class="timeline-item reveal">
+    <div class="timeline-item glass reveal">
       <div class="timeline-left">
         <span class="timeline-year">2012 — 2014</span>
         <span class="timeline-co">R/GA</span>
@@ -870,7 +957,7 @@
       </div>
     </div>
 
-    <div class="timeline-item reveal">
+    <div class="timeline-item glass reveal">
       <div class="timeline-left">
         <span class="timeline-year">2009 — 2012</span>
         <span class="timeline-co">Havas</span>
@@ -882,7 +969,7 @@
       </div>
     </div>
 
-    <div class="timeline-item reveal">
+    <div class="timeline-item glass reveal">
       <div class="timeline-left">
         <span class="timeline-year">1999 — 2009</span>
         <span class="timeline-co">Proximity · Agency Republic · Syzygy</span>
@@ -901,7 +988,7 @@
 
 <!-- AI -->
 <section class="ai-section" id="ai">
-  <div class="ai-inner">
+  <div class="ai-inner glass">
     <p class="section-label reveal">Artificial Intelligence</p>
     <div class="ai-grid">
       <h2 class="ai-headline reveal">Not <em>"How?"</em><br>but <em>"Why?"</em></h2>
@@ -948,6 +1035,32 @@
     });
   }, { threshold: 0.12 });
   reveals.forEach(el => observer.observe(el));
+
+  // Mesh gradient drifts on scroll — gives the glass something to refract
+  const root = document.documentElement;
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const p = window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight);
+        root.style.setProperty('--scroll', p.toFixed(4));
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Specular highlight follows the cursor across each glass pane
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) {
+    document.querySelectorAll('.glass').forEach(pane => {
+      pane.addEventListener('pointermove', e => {
+        const r = pane.getBoundingClientRect();
+        pane.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        pane.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+  }
 </script>
 
 </body>
