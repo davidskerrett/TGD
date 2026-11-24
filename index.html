@@ -585,6 +585,132 @@
     margin-top: 0.15rem;
   }
 
+  /* MADE (side projects) */
+  .made-section {
+    padding: 7rem 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .made-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+    align-items: end;
+  }
+
+  .made-title {
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .made-title em { font-style: italic; color: var(--green); }
+
+  .made-copy {
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: rgba(245,243,238,0.65);
+  }
+
+  .made-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  .made-card {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .made-card:nth-child(2) { --glass-blur: 32px; }
+
+  .made-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--green);
+    transition: width 0.5s var(--spring);
+    border-radius: 2px;
+  }
+
+  .made-card:hover::after { width: 100%; }
+
+  .made-kicker {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .made-name {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .made-sub {
+    font-style: italic;
+    font-size: 1.15rem;
+    color: rgba(245,243,238,0.8);
+    margin-bottom: 1.2rem;
+  }
+
+  .made-body {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(245,243,238,0.55);
+    margin-bottom: 2rem;
+    flex: 1;
+  }
+
+  .made-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .made-link {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgba(245,243,238,0.8);
+    padding: 0.7rem 1.2rem;
+    border-radius: 100px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.04);
+    transition: transform 0.4s var(--spring), border-color 0.3s, color 0.3s, background 0.3s;
+  }
+
+  .made-link:hover {
+    color: var(--white);
+    border-color: rgba(184,255,87,0.45);
+    background: var(--glass-fill-hover);
+    transform: translateY(-2px);
+  }
+
+  .made-link.primary {
+    color: var(--black);
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .made-link.primary:hover { color: var(--black); background: #c9ff7a; }
+
+  .ai-list a { color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(184,255,87,0.35); }
+  .ai-list a:hover { border-bottom-color: var(--green); }
+
   /* TESTIMONIALS */
   .testimonials-section {
     padding: 7rem 2.5rem;
@@ -773,7 +899,7 @@
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    .philosophy-grid, .pillars, .approach-header, .ai-grid, .testimonial-grid {
+    .philosophy-grid, .pillars, .approach-header, .ai-grid, .testimonial-grid, .made-header, .made-grid {
       grid-template-columns: 1fr;
     }
     .testimonials-section { padding: 4rem 1.5rem; }
@@ -781,6 +907,9 @@
     .philosophy-item { padding: 1.8rem; }
     .timeline-item { grid-template-columns: 1fr; gap: 0.8rem; padding: 1.8rem; }
     .pillar { padding: 1.8rem; }
+    .made-section { padding: 4rem 1.5rem; }
+    .made-header { gap: 1.5rem; margin-bottom: 2.5rem; }
+    .made-card { padding: 1.8rem; }
     .hero-headline { font-size: 3.2rem; }
     nav { padding: 0.8rem 1.2rem; top: 0.8rem; }
     .nav-links { gap: 1rem; }
@@ -833,6 +962,7 @@
     <li><a href="#approach">Approach</a></li>
     <li><a href="#career">Career</a></li>
     <li><a href="#ai">AI</a></li>
+    <li><a href="#made">Made</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -1061,15 +1191,55 @@
       <h2 class="ai-headline reveal">Not <em>"How?"</em><br>but <em>"Why?"</em></h2>
       <ul class="ai-list reveal">
         <li>Over 100k prompts and 4 years of hands-on AI client work — not watching from the sidelines.</li>
-        <li>Runs monthly agency-wide AI training covering Ethics, Interface, Agentic and Generative approaches.</li>
+        <li>Ran monthly agency-wide AI training covering Ethics, Interface, Agentic and Generative approaches.</li>
         <li>Building agents across CRO, workshops, briefs, and more — practical, shipping work.</li>
         <li>AI partnerships with Adobe and Perplexity for early BETA and hackathon access. Perplexity Fellow.</li>
         <li>Proficient in Claude, ChatGPT, Midjourney, Hailuo, Adobe Firefly — including prompt chaining.</li>
         <li>Host of the AI Webinar series for Campaign Network.</li>
+        <li><span>Author of <a href="https://dskerrett.gumroad.com/l/prompt-in-the-wild" target="_blank" rel="noopener"><em>Prompt in the Wild</em></a>, my field guide to AI images with taste, not tells.</span></li>
       </ul>
     </div>
   </div>
 </section>
+
+<!-- MADE -->
+<section class="made-section" id="made">
+  <p class="section-label reveal">Made, not just advised</p>
+  <div class="made-header reveal">
+    <h2 class="made-title">I practise<br>what I <em>preach.</em></h2>
+    <p class="made-copy">
+      Strategy is easier to trust when you've shipped things yourself. So I do. Two side projects, both built with AI and both live, out in the wild with real customers.
+    </p>
+  </div>
+  <div class="made-grid reveal">
+
+    <div class="made-card glass">
+      <p class="made-kicker">Book · AI image craft</p>
+      <h3 class="made-name">Prompt in the Wild</h3>
+      <p class="made-sub">Frameworks for AI images with taste, not tells.</p>
+      <p class="made-body">Four years of prompting, an hour a day, boiled down into a practical guide. Not a prompt dump. A way of thinking, built around my own eight-part framework, for people who want images that don't scream "AI made this".</p>
+      <div class="made-links">
+        <a class="made-link primary" href="https://dskerrett.gumroad.com/l/prompt-in-the-wild" target="_blank" rel="noopener">Get it on Gumroad →</a>
+      </div>
+    </div>
+
+    <div class="made-card glass">
+      <p class="made-kicker">Amazon KDP · Large-print puzzle series</p>
+      <h3 class="made-name">Britain's Natural Heritage Collection</h3>
+      <p class="made-sub">Spot the gap. Build for the audience. Ship it.</p>
+      <p class="made-body">Older nature lovers who need large print, and the people buying gifts for them, were badly served. So I learnt KDP and A+ Content from scratch and built a four-book word search series end to end with Claude. Watercolour illustrations, a nature fact on every puzzle.</p>
+      <div class="made-links">
+        <a class="made-link" href="https://amzn.to/4xbAhb0" target="_blank" rel="noopener">Birds</a>
+        <a class="made-link" href="https://amzn.to/3Timil7" target="_blank" rel="noopener">Mammals</a>
+        <a class="made-link" href="https://amzn.to/4vTUjWb" target="_blank" rel="noopener">Plants</a>
+        <a class="made-link" href="https://amzn.to/3RpsZBf" target="_blank" rel="noopener">Butterflies</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="full-divider"></div>
 
 <!-- TESTIMONIALS -->
 <section class="testimonials-section" id="proof">
