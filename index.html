@@ -157,6 +157,76 @@
 
   .nav-links a:hover { color: var(--white); }
 
+  .nav-links { align-items: center; }
+
+  .nav-links a.nav-cta {
+    color: var(--black);
+    background: var(--green);
+    padding: 0.55rem 1.1rem;
+    border-radius: 100px;
+    transition: transform 0.4s var(--spring), background 0.3s;
+  }
+
+  .nav-links a.nav-cta:hover { color: var(--black); background: #c9ff7a; transform: translateY(-1px); }
+
+  /* Availability pill */
+  .availability {
+    display: inline-flex;
+    width: fit-content;
+    align-self: flex-start;
+    justify-self: start;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 2rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: 100px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.05);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,243,238,0.8);
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.75s forwards;
+    transition: border-color 0.3s;
+  }
+
+  .availability:hover { border-color: rgba(184,255,87,0.45); }
+
+  .availability-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 0 rgba(184,255,87,0.6);
+    animation: pulse 2.2s infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(184,255,87,0.55); }
+    70%  { box-shadow: 0 0 0 9px rgba(184,255,87,0); }
+    100% { box-shadow: 0 0 0 0 rgba(184,255,87,0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) { .availability-dot { animation: none; } }
+
+  /* SERVICES */
+  .services-section { padding: 7rem 2.5rem; }
+  .services-section .pillars { row-gap: 1.2rem; }
+  .services-section .pillar-icon {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--grey);
+    opacity: 1;
+  }
+  .services-section .pillar:hover .pillar-icon { color: var(--green); }
+  .services-section .pillar:nth-child(n+4) { --glass-blur: 30px; }
+
   /* HERO */
   .hero {
     min-height: 100vh;
@@ -794,6 +864,16 @@
 
   .contact-headline em { font-style: italic; color: var(--green); }
 
+  .contact-note {
+    max-width: 620px;
+    margin: 0 auto 3rem;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(245,243,238,0.7);
+  }
+
+  .contact-note strong { font-weight: 400; color: var(--white); }
+
   .contact-links {
     display: flex;
     justify-content: center;
@@ -913,6 +993,9 @@
     .hero-headline { font-size: 3.2rem; }
     nav { padding: 0.8rem 1.2rem; top: 0.8rem; }
     .nav-links { gap: 1rem; }
+    .nav-links .nav-hide-sm { display: none; }
+    .services-section { padding: 4rem 1.5rem; }
+    .avail-long { display: none; }
 
     /* Hero text wrapping fixes */
     .hero { padding: 0 1.5rem; }
@@ -959,11 +1042,12 @@
 <nav>
   <span class="nav-mark">DS //</span>
   <ul class="nav-links">
-    <li><a href="#approach">Approach</a></li>
-    <li><a href="#career">Career</a></li>
-    <li><a href="#ai">AI</a></li>
-    <li><a href="#made">Made</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li class="nav-hide-sm"><a href="#approach">Approach</a></li>
+    <li><a href="#services">Services</a></li>
+    <li class="nav-hide-sm"><a href="#career">Career</a></li>
+    <li class="nav-hide-sm"><a href="#ai">AI</a></li>
+    <li class="nav-hide-sm"><a href="#made">Made</a></li>
+    <li><a class="nav-cta" href="#contact">Let's talk ↗</a></li>
   </ul>
 </nav>
 
@@ -980,14 +1064,18 @@
       Unlocking<br><em>value</em><br>through clarity.
     </h1>
     <p class="hero-sub">
-      25 years across London's best agencies — from the dot com crash to the SaaSpocalypse. Change is the only constant. Strategy is how you find signal in the noise.
+      26 years across London's best agencies, from the dot com crash to the SaaSpocalypse. Change is the only constant. Strategy is how you find signal in the noise.
     </p>
+    <a class="availability" href="#contact">
+      <span class="availability-dot"></span>
+      <span class="avail-long">Open to Head of Digital roles · </span>Available from January
+    </a>
   </div>
 
   <div class="hero-bottom">
     <div class="hero-stat-row">
       <div class="stat">
-        <span class="stat-num">25+</span>
+        <span class="stat-num">26</span>
         <span class="stat-label">Years' experience</span>
       </div>
       <div class="stat">
@@ -995,7 +1083,7 @@
         <span class="stat-label">AI prompts</span>
       </div>
       <div class="stat">
-        <span class="stat-num">115+</span>
+        <span class="stat-num">130+</span>
         <span class="stat-label">Awards won</span>
       </div>
       <div class="stat">
@@ -1094,6 +1182,59 @@
     </div>
   </div>
 </section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="approach-inner">
+    <p class="section-label reveal">Where I add value</p>
+    <div class="approach-header reveal">
+      <h2 class="approach-title">Human first.<br>For an <em>AI-first</em> world.</h2>
+      <p class="approach-copy">
+        I do my best work inside a business for the long haul. Owning the roadmap, building the team and answering for the numbers. Everything I do runs through my 5T Method: Thinking, Taste, Tokens, Technology and Talent.
+      </p>
+    </div>
+    <div class="pillars reveal">
+      <div class="pillar glass">
+        <div class="pillar-icon">01</div>
+        <p class="pillar-name">Audit · The 5T Method</p>
+        <h3 class="pillar-title">The 5T Audit</h3>
+        <p class="pillar-body">Where AI genuinely helps your business, where it doesn't, and what it's costing you to wait. Ends with a plan, not a pile of slides.</p>
+      </div>
+      <div class="pillar glass">
+        <div class="pillar-icon">02</div>
+        <p class="pillar-name">Strategy · Digital + CX</p>
+        <h3 class="pillar-title">Digital Strategy</h3>
+        <p class="pillar-body">Roadmaps, platforms, apps and customer experience. The joined-up plan, from Lloyds Bank to Nike.</p>
+      </div>
+      <div class="pillar glass">
+        <div class="pillar-icon">03</div>
+        <p class="pillar-name">Strategy · Brand + Content</p>
+        <h3 class="pillar-title">Content Strategy</h3>
+        <p class="pillar-body">Editorial, messaging and channel fit. Content that does a job, built for people and for the machines now reading it too.</p>
+      </div>
+      <div class="pillar glass">
+        <div class="pillar-icon">04</div>
+        <p class="pillar-name">Sprint · CRO</p>
+        <h3 class="pillar-title">Conversion Clarity Sprint</h3>
+        <p class="pillar-body">A focused look at where your site leaks customers, and the fixes worth testing first. Fast, practical, measurable.</p>
+      </div>
+      <div class="pillar glass">
+        <div class="pillar-icon">05</div>
+        <p class="pillar-name">Audit · AI search</p>
+        <h3 class="pillar-title">AI Visibility Audit</h3>
+        <p class="pillar-body">What ChatGPT, Perplexity and Gemini say about your brand when customers ask. And what to do when the answer is nothing.</p>
+      </div>
+      <div class="pillar glass">
+        <div class="pillar-icon">06</div>
+        <p class="pillar-name">In-house · Leadership</p>
+        <h3 class="pillar-title">Digital Leadership &amp; AI Adoption</h3>
+        <p class="pillar-body">Leading digital from the inside. Setting direction, growing the team, managing partners, and getting people genuinely confident with AI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
 
 <!-- CAREER -->
 <section class="career-section" id="career">
@@ -1290,6 +1431,9 @@
   <h2 class="contact-headline reveal">
     Let's make<br>something <em>matter.</em>
   </h2>
+  <p class="contact-note reveal">
+    I've spent 26 years building digital for Lloyds, Nike, BMW and Diageo from the agency side, so I know exactly what a client-side digital team needs from its partners, and how to get it. <strong>Now looking for the right Head of Digital role, to own the strategy, the team and the results.</strong>
+  </p>
   <div class="contact-links reveal">
     <a class="contact-link" href="mailto:davidskerrett@gmail.com">davidskerrett@gmail.com</a>
     <a class="contact-link" href="https://linkedin.com/in/david-skerrett-8249a012" target="_blank">LinkedIn</a>
